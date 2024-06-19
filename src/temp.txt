@@ -1,0 +1,14 @@
+Admin:
+1. List of all the posts
+2. Option to enable and desable post 
+3. List of all the users
+4. Option to delete user account
+
+About posts
+5. Delete post
+6. Edit post
+7. Create post
+
+
+Posts: 
+1. List of all enable posts
