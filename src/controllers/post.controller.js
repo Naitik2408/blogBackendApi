@@ -6,29 +6,64 @@ import { Post } from "../models/posts.models.js";
 
 // This is inside admin route
 
+// const generatePost = asyncHandler(async (req, res) => {
+//   console.log("Inside generate post");
+
+//   const { title, content } = req.body;
+//   console.log("this is req.file ", req);
+
+//   console.log("Title ", title, "Content: ", content);
+
+//   if (!(title && content)) {
+//     throw new apiError(400, "All fields are required");
+//   }
+
+//   console.log("before coverImage path");
+//   let coverImageLocalPath;
+//   if (
+//     req.files &&
+//     Array.isArray(req.files.coverImage) &&
+//     req.files.coverImage.length > 0
+//   ) {
+//     coverImageLocalPath = req.files.coverImage[0].path;
+//   }
+
+//   const coverImage = await uploadOnCloudinary(coverImageLocalPath);
+
+//   const post = await Post.create({
+//     title,
+//     content,
+//     coverImage: coverImage?.url || "",
+//     authorId: req.user._id,
+//   });
+
+//   const createdPost = await Post.findById(post._id);
+
+//   if (!createdPost) {
+//     throw new apiError(500, "Something went wrong while createing post");
+//   }
+
+//   return res
+//     .status(201)
+//     .json(new apiResponse(200, createdPost, "Post is created sucessfully"));
+// });
+
+
+
 const generatePost = asyncHandler(async (req, res) => {
   console.log("Inside generate post");
 
   const { title, content } = req.body;
-  console.log("this is req.file ", req);
-
-  console.log("Title ", title, "Content: ", content);
+  console.log("this is req.file ", req.file);
 
   if (!(title && content)) {
     throw new apiError(400, "All fields are required");
   }
 
-  console.log("before coverImage path");
-  let coverImageLocalPath;
-  if (
-    req.files &&
-    Array.isArray(req.files.coverImage) &&
-    req.files.coverImage.length > 0
-  ) {
-    coverImageLocalPath = req.files.coverImage[0].path;
+  let coverImage;
+  if (req.file) {
+    coverImage = await uploadOnCloudinary(req.file.buffer);
   }
-
-  const coverImage = await uploadOnCloudinary(coverImageLocalPath);
 
   const post = await Post.create({
     title,
@@ -40,12 +75,12 @@ const generatePost = asyncHandler(async (req, res) => {
   const createdPost = await Post.findById(post._id);
 
   if (!createdPost) {
-    throw new apiError(500, "Something went wrong while createing post");
+    throw new apiError(500, "Something went wrong while creating post");
   }
 
   return res
     .status(201)
-    .json(new apiResponse(200, createdPost, "Post is created sucessfully"));
+    .json(new apiResponse(200, createdPost, "Post is created successfully"));
 });
 
 

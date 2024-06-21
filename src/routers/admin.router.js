@@ -7,15 +7,17 @@ import { getAllUsers } from "../controllers/user.controller.js";
 
 const router = Router()
 
-router.route("/generatePost").post( 
-    upload.fields([
-        {
-            name: "coverImage",
-            maxCount: 1
-        }
-    ]),
-    generatePost
-)
+// router.route("/generatePost").post( 
+//     upload.fields([
+//         {
+//             name: "coverImage",
+//             maxCount: 1
+//         }
+//     ]),
+//     generatePost
+// )
+
+router.post('/generatePost', upload.single('coverImage'), generatePost);
 
 router.route("/enableOrDesablePost").post(enableOrDesablePosts)
 
