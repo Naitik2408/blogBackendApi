@@ -30,7 +30,9 @@ import postRouter from "./routers/post.router.js"
 import adminRouter from "./routers/admin.router.js"
 import { isAdmin, verifyJWT } from "./middleware/auth.middleware.js"
 
-
+app.get('/', (req, res) => {
+    res.send('Welcome to the Blog Backend Server!');
+});
 app.use("/api/v1/users", userRouter)
 app.use("/api/v1/posts", postRouter)
 app.use("/api/v1/admin",verifyJWT, isAdmin, adminRouter)
